@@ -8,6 +8,9 @@
       "start": "node dist/server.js",
       "format": "prettier --write ."
    },
+   "_moduleAliases": {
+      "@": "src"
+   },
    "repository": "https://github.com/oktamboy0411/template-backend.git",
    "author": "qulsoatovoktam <129328648+oktamboy0411@users.noreply.github.com>",
    "license": "MIT",
@@ -25,6 +28,7 @@
       "helmet-csp": "^4.0.0",
       "http-status-codes": "^2.3.0",
       "jsonwebtoken": "^9.0.2",
+      "module-alias": "^2.2.3",
       "mongoose": "^8.16.1",
       "multer": "^2.0.1",
       "node-cron": "^4.2.1",
@@ -38,6 +42,7 @@
       "@types/cors": "^2.8.19",
       "@types/express": "^5.0.3",
       "@types/jsonwebtoken": "^9.0.10",
+      "@types/module-alias": "^2.0.4",
       "@types/multer": "^2.0.0",
       "@types/node": "^24.3.0",
       "@types/swagger-ui-express": "^4.1.8",

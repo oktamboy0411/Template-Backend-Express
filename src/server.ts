@@ -1,4 +1,5 @@
 import 'core-js/stable'
+import 'module-alias/register'
 import 'regenerator-runtime/runtime'
 
 import { App } from './app'

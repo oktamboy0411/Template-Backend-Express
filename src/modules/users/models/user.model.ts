@@ -6,13 +6,13 @@ import {
    RoleConstants,
    SectionConstants,
    StatusConstants,
-} from '../../constants'
+} from '../../../constants'
 import {
    PermissionConstantsType,
    RoleConstantsType,
    SectionConstantsType,
    StatusConstantsType,
-} from '../../types'
+} from '../../../types'
 
 export interface UserDocumentI {
    _id: string

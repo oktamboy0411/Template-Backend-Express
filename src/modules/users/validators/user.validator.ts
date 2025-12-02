@@ -4,7 +4,7 @@ import {
    PermissionConstants,
    RoleConstants,
    SectionConstants,
-} from '../../constants'
+} from '../../../constants'
 
 export class UserValidator {
    public static create = () => [

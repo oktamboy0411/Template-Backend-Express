@@ -1,8 +1,8 @@
 import { Router } from 'express'
 
-import { UserController } from '../../controllers'
-import { authMiddleware, roleMiddleware } from '../../utils'
-import { UserValidator, validate } from '../../validators'
+import { UserController } from '../../../controllers'
+import { authMiddleware, roleMiddleware } from '../../../utils'
+import { UserValidator, validate } from '../../../validators'
 
 const userRouter = Router()
 
