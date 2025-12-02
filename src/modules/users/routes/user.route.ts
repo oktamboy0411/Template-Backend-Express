@@ -1,5 +1,5 @@
+import { validateMiddleware } from '@/middlewares'
 import { authMiddleware, roleMiddleware } from '@/utils'
-import { validate } from '@/validators'
 
 import { Router } from 'express'
 
@@ -13,7 +13,7 @@ userRouter.post(
    authMiddleware,
    roleMiddleware(['ceo']),
    UserValidator.create(),
-   validate,
+   validateMiddleware,
    UserController.create,
 )
 userRouter.put(
@@ -21,7 +21,7 @@ userRouter.put(
    authMiddleware,
    roleMiddleware(['ceo']),
    UserValidator.update(),
-   validate,
+   validateMiddleware,
    UserController.update,
 )
 userRouter.get(
@@ -29,7 +29,7 @@ userRouter.get(
    authMiddleware,
    roleMiddleware(['ceo']),
    UserValidator.getAll(),
-   validate,
+   validateMiddleware,
    UserController.getAll,
 )
 userRouter.delete(
@@ -37,7 +37,7 @@ userRouter.delete(
    authMiddleware,
    roleMiddleware(['ceo']),
    UserValidator.mongoId(),
-   validate,
+   validateMiddleware,
    UserController.delete,
 )
 userRouter.get(
@@ -45,7 +45,7 @@ userRouter.get(
    authMiddleware,
    roleMiddleware(['ceo']),
    UserValidator.mongoId(),
-   validate,
+   validateMiddleware,
    UserController.getById,
 )
 

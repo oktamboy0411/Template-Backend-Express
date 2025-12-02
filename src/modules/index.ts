@@ -1,8 +1,11 @@
-// Auth module
-export * from './auth'
+import { AuthSwagger, authRouter } from './auth'
+import { UploadSwagger, uploadRouter } from './upload'
+import { UserSwagger, userRouter } from './users'
 
-// Upload module
-export * from './upload'
+export const SwaggerEndpoints = [UploadSwagger, UserSwagger, AuthSwagger]
 
-// Users module
-export * from './users'
+export const Routes = [
+   { path: '/upload', router: uploadRouter },
+   { path: '/auth', router: authRouter },
+   { path: '/user', router: userRouter },
+]

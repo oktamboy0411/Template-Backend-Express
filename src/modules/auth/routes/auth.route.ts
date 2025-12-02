@@ -1,5 +1,5 @@
+import { validateMiddleware } from '@/middlewares'
 import { authMiddleware } from '@/utils'
-import { validate } from '@/validators'
 
 import { Router } from 'express'
 
@@ -8,12 +8,17 @@ import { AuthValidator } from '../validators/auth.validator'
 
 const authRouter = Router()
 
-authRouter.post('/login', AuthValidator.login(), validate, AuthController.login)
+authRouter.post(
+   '/login',
+   AuthValidator.login(),
+   validateMiddleware,
+   AuthController.login,
+)
 
 authRouter.post(
    '/sign-up/ceo',
    AuthValidator.signUpCeo(),
-   validate,
+   validateMiddleware,
    AuthController.signUpCeo,
 )
 
@@ -23,7 +28,7 @@ authRouter.patch(
    '/update-me',
    authMiddleware,
    AuthValidator.updateMe(),
-   validate,
+   validateMiddleware,
    AuthController.updateMe,
 )
 
@@ -31,7 +36,7 @@ authRouter.patch(
    '/update-password',
    authMiddleware,
    AuthValidator.updatePassword(),
-   validate,
+   validateMiddleware,
    AuthController.updatePassword,
 )
 

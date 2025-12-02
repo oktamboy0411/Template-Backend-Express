@@ -98,4 +98,4 @@ const UploadSwagger = {
    ],
 }
 
-export default UploadSwagger
+export { UploadSwagger }

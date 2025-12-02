@@ -1,4 +1,4 @@
-const AuthSwagger = {
+export const AuthSwagger = {
    endpoint: 'auth',
    paths: [
       {
@@ -206,5 +206,3 @@ const AuthSwagger = {
       },
    ],
 }
-
-export default AuthSwagger

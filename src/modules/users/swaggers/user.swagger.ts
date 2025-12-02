@@ -1,4 +1,4 @@
-const UserSwagger = {
+export const UserSwagger = {
    endpoint: 'user',
    paths: [
       {
@@ -280,5 +280,3 @@ const UserSwagger = {
       },
    ],
 }
-
-export default UserSwagger 

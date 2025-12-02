@@ -3,9 +3,9 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 import { NextFunction, Response } from 'express'
 
-import { CustomRequest, HttpException } from '../utils'
+import { CustomRequest, HttpException } from '../../utils'
 
-export const validate = (
+export const validateMiddleware = (
    req: CustomRequest,
    res: Response,
    next: NextFunction,
