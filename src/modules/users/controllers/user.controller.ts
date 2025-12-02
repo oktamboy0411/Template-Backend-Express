@@ -1,9 +1,9 @@
+import { RoleConstants, StatusConstants } from '@/constants'
+import { HashingHelpers, HttpException, asyncHandler } from '@/utils'
 import e from 'cors'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import { RoleConstants, StatusConstants } from '../../../constants'
-import { UserDocumentI, UserModel } from '../../../models'
-import { HashingHelpers, HttpException, asyncHandler } from '../../../utils'
+import { UserDocumentI, UserModel } from '../models/user.model'
 
 export class UserController {
    public static create = asyncHandler(async (req, res) => {

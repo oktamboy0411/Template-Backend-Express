@@ -1,8 +1,10 @@
+import { authMiddleware, roleMiddleware } from '@/utils'
+import { validate } from '@/validators'
+
 import { Router } from 'express'
 
-import { UserController } from '../../../controllers'
-import { authMiddleware, roleMiddleware } from '../../../utils'
-import { UserValidator, validate } from '../../../validators'
+import { UserController } from '../controllers/user.controller'
+import { UserValidator } from '../validators/user.validator'
 
 const userRouter = Router()
 

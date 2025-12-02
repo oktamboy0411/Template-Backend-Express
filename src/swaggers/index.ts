@@ -1,7 +1,6 @@
-import AuthSwagger from './auth'
+import { AuthSwagger, UploadSwagger, UserSwagger } from '@/modules'
+
 import { Swagger, addSwaggerEndpoint } from './main'
-import UploadSwagger from './upload'
-import UserSwagger from './user'
 
 addSwaggerEndpoint(Swagger, UploadSwagger)
 addSwaggerEndpoint(Swagger, AuthSwagger)

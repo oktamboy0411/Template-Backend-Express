@@ -1,9 +1,9 @@
+import { UserModel } from '@/modules'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import { UserModel } from '../models'
-import { HttpException } from '../utils/http.exception'
-import { JwtHelpers } from '../utils/jwt.helper'
 import { asyncHandler } from './async-handler'
+import { HttpException } from './http.exception'
+import { JwtHelpers } from './jwt.helper'
 
 export const authMiddleware = asyncHandler(async (req, res, next) => {
    let token

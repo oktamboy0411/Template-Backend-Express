@@ -9,7 +9,7 @@
       "format": "prettier --write ."
    },
    "_moduleAliases": {
-      "@": "src"
+      "@": "dist"
    },
    "repository": "https://github.com/oktamboy0411/template-backend.git",
    "author": "qulsoatovoktam <129328648+oktamboy0411@users.noreply.github.com>",

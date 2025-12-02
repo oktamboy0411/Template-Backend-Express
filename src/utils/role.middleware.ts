@@ -1,10 +1,10 @@
+import { RoleConstantsType } from '@/types'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Response } from 'express'
 
-import { RoleConstantsType } from '../types'
-import { HttpException } from '../utils/http.exception'
 import { CustomRequest, noAsyncHandler } from './async-handler'
+import { HttpException } from './http.exception'
 
 export const roleMiddleware = (allowedRoles: RoleConstantsType[]) =>
    noAsyncHandler((req: CustomRequest, res: Response, next: NextFunction) => {

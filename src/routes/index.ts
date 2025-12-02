@@ -1,6 +1,4 @@
-import { authRouter } from './auth/auth.route'
-import { uploadRouter } from './upload/upload.route'
-import { userRouter } from '../modules/users/routes/user.route'
+import { authRouter, uploadRouter, userRouter } from '@/modules'
 
 export const Routes = [
    { path: '/upload', router: uploadRouter },

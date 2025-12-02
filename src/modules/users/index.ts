@@ -1,0 +1,5 @@
+export * from './controllers/user.controller'
+export * from './models/user.model'
+export * from './routes/user.route'
+export * from './validators/user.validator'
+export { default as UserSwagger } from './swaggers/user'
