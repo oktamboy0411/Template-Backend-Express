@@ -1,2 +1,5 @@
 export * from './routes/user.route'
 export * from './swaggers/user.swagger'
+export * from './controllers/user.controller'
+export * from './validators/user.validator'
+export * from './models/user.model'

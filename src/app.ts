@@ -1,3 +1,4 @@
+import { Routes } from '@/modules'
 import cors from 'cors'
 import helmet from 'helmet'
 import contentSecurityPolicy from 'helmet-csp'
@@ -7,7 +8,6 @@ import swaggerUi from 'swagger-ui-express'
 
 import express, { Application, Request, Response, Router } from 'express'
 
-import { Routes } from './routes'
 import { Swagger } from './swaggers'
 import {
    CONNECT_DB,

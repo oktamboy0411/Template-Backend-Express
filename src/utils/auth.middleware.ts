@@ -1,4 +1,4 @@
-import { UserModel } from '@/modules'
+import { UserModel } from '@/modules/users'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 import { asyncHandler } from './async-handler'
