@@ -1,8 +1,7 @@
-import os from 'os'
-
 import type { NextFunction, Request, Response } from 'express'
 import { rateLimit } from 'express-rate-limit'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
+import os from 'os'
 
 import { HttpException } from './http.exception'
 

@@ -1,26 +1,26 @@
 name: Production
 
 on:
-  push:
-    branches: [test]
+   push:
+      branches: [test]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: connect to server and deploy changes
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          port: 22
-          script: |
-            cd romay_backend-prod/
-            git stash
-            git pull origin main --rebase
-            pm2 stop romay-prod
-            rm -rf ./build
-            yarn
-            npx tsc
-            pm2 restart romay-prod
+   build:
+      runs-on: ubuntu-latest
+      steps:
+         - name: connect to server and deploy changes
+           uses: appleboy/ssh-action@v1.0.0
+           with:
+              host: ${{ secrets.HOST }}
+              username: ${{ secrets.USERNAME }}
+              key: ${{ secrets.KEY }}
+              port: 22
+              script: |
+                 cd romay_backend-prod/
+                 git stash
+                 git pull origin main --rebase
+                 pm2 stop romay-prod
+                 rm -rf ./build
+                 yarn
+                 npx tsc
+                 pm2 restart romay-prod

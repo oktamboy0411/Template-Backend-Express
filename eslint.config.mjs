@@ -205,18 +205,7 @@ export default [
          ],
 
          // === Prettier integratsiyasi ===
-         'prettier/prettier': [
-            'error',
-            {
-               semi: false,
-               singleQuote: true,
-               trailingComma: 'all',
-               endOfLine: 'auto',
-               tabWidth: 3,
-               printWidth: 80,
-               arrowParens: 'always',
-            },
-         ],
+         'prettier/prettier': 'error',
       },
       settings: {
          'import/resolver': {

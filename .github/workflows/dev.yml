@@ -1,27 +1,27 @@
 name: Development
 
 on:
-  push:
-    branches: [test]
+   push:
+      branches: [test]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: connect to server and deploy changes
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          port: 22
-          script: |
-            cd romay_backend/
-            git stash
-            git pull origin dev --rebase
-            pm2 stop romay-dev
-            rm -rf ./build
-            yarn
-            npx tsc
-            cp ./src/utils/swagger.json ./build/utils/swagger.json
-            pm2 restart romay-dev
+   build:
+      runs-on: ubuntu-latest
+      steps:
+         - name: connect to server and deploy changes
+           uses: appleboy/ssh-action@v1.0.0
+           with:
+              host: ${{ secrets.HOST }}
+              username: ${{ secrets.USERNAME }}
+              key: ${{ secrets.KEY }}
+              port: 22
+              script: |
+                 cd romay_backend/
+                 git stash
+                 git pull origin dev --rebase
+                 pm2 stop romay-dev
+                 rm -rf ./build
+                 yarn
+                 npx tsc
+                 cp ./src/utils/swagger.json ./build/utils/swagger.json
+                 pm2 restart romay-dev
