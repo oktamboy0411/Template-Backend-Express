@@ -1,6 +1,7 @@
-import { CollectionConstants } from '@/constants'
-import { CollectionConstantsType } from '@/types'
 import { Schema, model } from 'mongoose'
+
+import { CollectionConstants } from '@/constants'
+import type { CollectionConstantsType } from '@/types'
 
 export interface UploadDocumentI {
    user: object

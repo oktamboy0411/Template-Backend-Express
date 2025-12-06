@@ -1,12 +1,14 @@
-import { Routes } from '@/modules'
+import path from 'path'
+
 import cors from 'cors'
+import type { Application, Request, Response, Router } from 'express'
+import express from 'express'
 import helmet from 'helmet'
 import contentSecurityPolicy from 'helmet-csp'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
-import path from 'path'
 import swaggerUi from 'swagger-ui-express'
 
-import express, { Application, Request, Response, Router } from 'express'
+import { Routes } from '@/modules'
 
 import { Swagger } from './swaggers'
 import {

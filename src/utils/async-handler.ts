@@ -1,6 +1,6 @@
-import { UserDocumentI } from '@/modules/users'
+import type { NextFunction, Request, Response } from 'express'
 
-import { NextFunction, Request, Response } from 'express'
+import type { UserDocumentI } from '@/modules/users'
 
 export interface CustomRequest extends Request {
    user?: UserDocumentI

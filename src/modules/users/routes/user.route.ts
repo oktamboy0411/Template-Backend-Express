@@ -1,7 +1,7 @@
+import { Router } from 'express'
+
 import { validateMiddleware } from '@/middlewares'
 import { authMiddleware, roleMiddleware } from '@/utils'
-
-import { Router } from 'express'
 
 import { UserController } from '../controllers/user.controller'
 import { UserValidator } from '../validators/user.validator'

@@ -1,5 +1,6 @@
-import { UserModel } from '@/modules/users'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
+
+import { UserModel } from '@/modules/users'
 
 import { asyncHandler } from './async-handler'
 import { HttpException } from './http.exception'

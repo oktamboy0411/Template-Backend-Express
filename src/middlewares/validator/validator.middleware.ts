@@ -1,9 +1,9 @@
+import type { NextFunction, Response } from 'express'
 import { validationResult } from 'express-validator'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import { NextFunction, Response } from 'express'
-
-import { CustomRequest, HttpException } from '../../utils'
+import type { CustomRequest } from '../../utils'
+import { HttpException } from '../../utils'
 
 export const validateMiddleware = (
    req: CustomRequest,
@@ -17,7 +17,7 @@ export const validateMiddleware = (
    let messages = ''
 
    errors.array().map((err: any) => {
-      messages += (err.msg as string) + ' '
+      messages += `${err.msg as string} `
    })
 
    throw new HttpException(

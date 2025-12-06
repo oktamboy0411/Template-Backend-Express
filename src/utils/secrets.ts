@@ -1,5 +1,6 @@
-import dotenv from 'dotenv'
 import fs from 'fs'
+
+import dotenv from 'dotenv'
 
 if (fs.existsSync('.env')) {
    dotenv.config({ path: '.env' })

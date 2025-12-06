@@ -1,9 +1,11 @@
-import { RoleConstants, StatusConstants } from '@/constants'
-import { HashingHelpers, HttpException, asyncHandler } from '@/utils'
 import e from 'cors'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import { UserDocumentI, UserModel } from '../models/user.model'
+import { RoleConstants, StatusConstants } from '@/constants'
+import { HashingHelpers, HttpException, asyncHandler } from '@/utils'
+
+import type { UserDocumentI } from '../models/user.model'
+import { UserModel } from '../models/user.model'
 
 export class UserController {
    public static create = asyncHandler(async (req, res) => {
@@ -26,7 +28,7 @@ export class UserController {
          .lean()
          .exec()
 
-      if (matches.some(m => m.username === username)) {
+      if (matches.some((m) => m.username === username)) {
          throw new HttpException(
             StatusCodes.BAD_REQUEST,
             ReasonPhrases.BAD_REQUEST,
@@ -34,7 +36,7 @@ export class UserController {
          )
       }
 
-      if (matches.some(m => m.email === email)) {
+      if (matches.some((m) => m.email === email)) {
          throw new HttpException(
             StatusCodes.BAD_REQUEST,
             ReasonPhrases.BAD_REQUEST,
@@ -42,7 +44,7 @@ export class UserController {
          )
       }
 
-      if (matches.some(m => m.phone === phone)) {
+      if (matches.some((m) => m.phone === phone)) {
          throw new HttpException(
             StatusCodes.BAD_REQUEST,
             ReasonPhrases.BAD_REQUEST,
@@ -175,7 +177,7 @@ export class UserController {
       if (fullname) updateData.fullname = fullname
 
       if (username && username !== user.username) {
-         if (matches.some(m => m.username === username)) {
+         if (matches.some((m) => m.username === username)) {
             throw new HttpException(
                StatusCodes.BAD_REQUEST,
                ReasonPhrases.BAD_REQUEST,
@@ -186,7 +188,7 @@ export class UserController {
       }
 
       if (email && email !== user.email) {
-         if (matches.some(m => m.email === email)) {
+         if (matches.some((m) => m.email === email)) {
             throw new HttpException(
                StatusCodes.BAD_REQUEST,
                ReasonPhrases.BAD_REQUEST,
@@ -197,7 +199,7 @@ export class UserController {
       }
 
       if (phone && phone !== user.phone) {
-         if (matches.some(m => m.phone === phone)) {
+         if (matches.some((m) => m.phone === phone)) {
             throw new HttpException(
                StatusCodes.BAD_REQUEST,
                ReasonPhrases.BAD_REQUEST,

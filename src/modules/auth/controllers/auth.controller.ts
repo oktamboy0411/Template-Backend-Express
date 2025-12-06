@@ -1,3 +1,5 @@
+import { ReasonPhrases, StatusCodes } from 'http-status-codes'
+
 import { RoleConstants } from '@/constants'
 import {
    HashingHelpers,
@@ -6,7 +8,6 @@ import {
    REG_KEY,
    asyncHandler,
 } from '@/utils'
-import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 import { UserModel } from '../../users/models/user.model'
 
@@ -118,7 +119,7 @@ export class AuthController {
       if (license_number) updateData.license_number = license_number
 
       if (username && username !== user?.username) {
-         if (matches.some(m => m.username === username)) {
+         if (matches.some((m) => m.username === username)) {
             throw new HttpException(
                StatusCodes.BAD_REQUEST,
                ReasonPhrases.BAD_REQUEST,
@@ -129,7 +130,7 @@ export class AuthController {
       }
 
       if (email && email !== user?.email) {
-         if (matches.some(m => m.email === email)) {
+         if (matches.some((m) => m.email === email)) {
             throw new HttpException(
                StatusCodes.BAD_REQUEST,
                ReasonPhrases.BAD_REQUEST,
@@ -140,7 +141,7 @@ export class AuthController {
       }
 
       if (phone && phone !== user?.phone) {
-         if (matches.some(m => m.phone === phone)) {
+         if (matches.some((m) => m.phone === phone)) {
             throw new HttpException(
                StatusCodes.BAD_REQUEST,
                ReasonPhrases.BAD_REQUEST,

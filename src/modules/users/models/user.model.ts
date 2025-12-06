@@ -1,3 +1,5 @@
+import { Schema, model } from 'mongoose'
+
 import {
    CollectionConstants,
    PermissionConstants,
@@ -5,13 +7,12 @@ import {
    SectionConstants,
    StatusConstants,
 } from '@/constants'
-import {
+import type {
    PermissionConstantsType,
    RoleConstantsType,
    SectionConstantsType,
    StatusConstantsType,
 } from '@/types'
-import { Schema, model } from 'mongoose'
 
 export interface UserDocumentI {
    _id: string

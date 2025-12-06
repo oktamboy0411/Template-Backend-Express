@@ -1,6 +1,6 @@
 import { OPENWEATHER_API_KEY } from './secrets'
 
-export type WeatherResult = {
+export interface WeatherResult {
    temp: number
    icon: string
    city: string
@@ -51,12 +51,7 @@ export const fetchWeatherWithCity = async (
 
       const data = await response.json()
 
-      if (
-         !data ||
-         !data.main ||
-         !Array.isArray(data.weather) ||
-         !data.weather[0]
-      ) {
+      if (!data?.main || !Array.isArray(data.weather) || !data.weather[0]) {
          return defaultResult
       }
 

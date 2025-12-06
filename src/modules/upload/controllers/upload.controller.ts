@@ -1,10 +1,12 @@
-import { HttpException, asyncHandler, deleteFile, uploadFile } from '@/utils'
 import { exec } from 'child_process'
 import fs from 'fs'
-import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import path from 'path'
+
+import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import sharp from 'sharp'
 import { v4 } from 'uuid'
+
+import { HttpException, asyncHandler, deleteFile, uploadFile } from '@/utils'
 
 import { UploadModel } from '../models/upload.model'
 
@@ -27,7 +29,7 @@ export class UploadController {
             .rotate()
             .toFormat('webp')
             .toBuffer()
-         fileKey = 'image/' + v4() + '.webp'
+         fileKey = `image/${v4()}.webp`
       }
 
       if (uploadedFile.mimetype === 'application/pdf') {
@@ -44,7 +46,7 @@ export class UploadController {
             '..',
             'public',
             'uploads',
-            v4() + '.pdf',
+            `${v4()}.pdf`,
          )
          const outputPath = path.join(
             __dirname,
@@ -54,7 +56,7 @@ export class UploadController {
             '..',
             'public',
             'uploads',
-            v4() + '.pdf',
+            `${v4()}.pdf`,
          )
 
          fs.writeFileSync(inputPath, uploadedFile.buffer)
@@ -62,7 +64,7 @@ export class UploadController {
          const gsCommand = `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=${outputPath} ${inputPath}`
 
          await new Promise<void>((resolve, reject) => {
-            exec(gsCommand, error => {
+            exec(gsCommand, (error) => {
                if (error) {
                   console.error('Error compressing PDF:', error)
                   reject(
@@ -76,7 +78,7 @@ export class UploadController {
                processedBuffer = fs.readFileSync(outputPath)
                fs.unlinkSync(inputPath)
                fs.unlinkSync(outputPath)
-               fileKey = 'document/' + v4() + '.pdf'
+               fileKey = `document/${v4()}.pdf`
                resolve()
             })
          })
@@ -119,7 +121,7 @@ export class UploadController {
       }
 
       const fileResults = await Promise.all(
-         uploadedFiles.map(async uploadedFile => {
+         uploadedFiles.map(async (uploadedFile) => {
             let processedBuffer: Buffer | undefined
             let fileKey: string | undefined
 
@@ -128,7 +130,7 @@ export class UploadController {
                   .rotate()
                   .toFormat('webp')
                   .toBuffer()
-               fileKey = 'image/' + v4() + '.webp'
+               fileKey = `image/${v4()}.webp`
             }
 
             if (uploadedFile.mimetype === 'application/pdf') {
@@ -144,7 +146,7 @@ export class UploadController {
                   '..',
                   'public',
                   'uploads',
-                  v4() + '.pdf',
+                  `${v4()}.pdf`,
                )
                const outputPath = path.join(
                   __dirname,
@@ -154,7 +156,7 @@ export class UploadController {
                   '..',
                   'public',
                   'uploads',
-                  v4() + '.pdf',
+                  `${v4()}.pdf`,
                )
 
                fs.writeFileSync(inputPath, uploadedFile.buffer)
@@ -162,7 +164,7 @@ export class UploadController {
                const gsCommand = `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=${outputPath} ${inputPath}`
 
                await new Promise<void>((resolve, reject) => {
-                  exec(gsCommand, error => {
+                  exec(gsCommand, (error) => {
                      if (error) {
                         console.error('Error compressing PDF:', error)
                         reject(
@@ -176,7 +178,7 @@ export class UploadController {
                      processedBuffer = fs.readFileSync(outputPath)
                      fs.unlinkSync(inputPath)
                      fs.unlinkSync(outputPath)
-                     fileKey = 'document/' + v4() + '.pdf'
+                     fileKey = `document/${v4()}.pdf`
                      resolve()
                   })
                })
@@ -221,7 +223,7 @@ export class UploadController {
                null,
                { lean: true },
             )
-         ).map(item => item.file_path)
+         ).map((item) => item.file_path)
          for (const item of files) {
             void deleteFile(item)
             await UploadModel.deleteOne({ file_path: item })

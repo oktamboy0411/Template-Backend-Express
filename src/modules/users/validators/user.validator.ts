@@ -1,9 +1,10 @@
+import { body, param, query } from 'express-validator'
+
 import {
    PermissionConstants,
    RoleConstants,
    SectionConstants,
 } from '@/constants'
-import { body, param, query } from 'express-validator'
 
 export class UserValidator {
    public static create = () => [

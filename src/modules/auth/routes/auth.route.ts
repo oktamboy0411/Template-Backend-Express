@@ -1,7 +1,7 @@
+import { Router } from 'express'
+
 import { validateMiddleware } from '@/middlewares'
 import { authMiddleware } from '@/utils'
-
-import { Router } from 'express'
 
 import { AuthController } from '../controllers/auth.controller'
 import { AuthValidator } from '../validators/auth.validator'

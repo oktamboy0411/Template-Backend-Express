@@ -1,4 +1,4 @@
-import { SwaggerType } from '../../types'
+import type { SwaggerType } from '../../types'
 import { PORT } from '../../utils'
 
 export const Swagger: SwaggerType = {
