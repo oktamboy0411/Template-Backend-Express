@@ -4,17 +4,18 @@ import type { IBcrypt } from '@/types'
 
 const { compare, genSalt, hash } = bcrypt as unknown as IBcrypt
 
+const SALT_ROUNDS = 10
+
 export class HashingHelpers {
-   public static async generatePassword(
-      passwordString: string,
-   ): Promise<string> {
-      const salt = await genSalt(10)
-      return hash(passwordString, salt)
+   public static async generatePassword(password: string): Promise<string> {
+      const salt = await genSalt(SALT_ROUNDS)
+      return hash(password, salt)
    }
-   public static async comparePassword(
+
+   public static comparePassword(
       password: string,
-      hashString: string,
+      hashedPassword: string,
    ): Promise<boolean> {
-      return compare(password, hashString)
+      return compare(password, hashedPassword)
    }
 }
