@@ -1,112 +1,121 @@
-import { body } from 'express-validator'
+import { type ValidationChain, body } from 'express-validator'
+
+const PASSWORD_MIN_LENGTH = 4
+const PASSWORD_MAX_LENGTH = 16
+
+const PHONE_REGEX = /^\+998\d{9}$/
+
+const ERROR_MESSAGES = {
+   USERNAME_REQUIRED: 'Username is required.',
+   USERNAME_EMPTY: 'Username cannot be empty.',
+   USERNAME_STRING: 'Username must be a string.',
+   PASSWORD_REQUIRED: 'Password is required.',
+   PASSWORD_STRING: 'Password must be a string.',
+   PASSWORD_LENGTH: `Password must be between ${PASSWORD_MIN_LENGTH} and ${PASSWORD_MAX_LENGTH} characters long.`,
+   REG_KEY_REQUIRED: 'Registration key is required.',
+   REG_KEY_STRING: 'Registration key must be a string.',
+   FULLNAME_EMPTY: 'Fullname cannot be empty.',
+   FULLNAME_STRING: 'Fullname must be a string.',
+   PHONE_EMPTY: 'Phone number cannot be empty.',
+   PHONE_STRING: 'Phone number must be a string.',
+   PHONE_FORMAT: 'Phone number must match +998XXXXXXXXX format.',
+   OLD_PASSWORD_REQUIRED: 'Current password is required.',
+   OLD_PASSWORD_STRING: 'Current password must be a string.',
+   OLD_PASSWORD_LENGTH: `Current password must be between ${PASSWORD_MIN_LENGTH} and ${PASSWORD_MAX_LENGTH} characters long.`,
+   NEW_PASSWORD_REQUIRED: 'New password is required.',
+   NEW_PASSWORD_STRING: 'New password must be a string.',
+   NEW_PASSWORD_LENGTH: `New password must be between ${PASSWORD_MIN_LENGTH} and ${PASSWORD_MAX_LENGTH} characters long.`,
+} as const
 
 export class AuthValidator {
-   public static login = () => [
+   public static login = (): ValidationChain[] => [
       body('username')
          .trim()
          .notEmpty()
-         .withMessage('Username is required.')
+         .withMessage(ERROR_MESSAGES.USERNAME_REQUIRED)
          .isString()
-         .withMessage('Username must be a string.'),
+         .withMessage(ERROR_MESSAGES.USERNAME_STRING),
 
       body('password')
          .trim()
          .notEmpty()
-         .withMessage('Password is required.')
+         .withMessage(ERROR_MESSAGES.PASSWORD_REQUIRED)
          .isString()
-         .withMessage('Password must be a string.')
-         .isLength({ min: 4, max: 16 })
-         .withMessage('Password must be between 4 and 16 characters long.'),
+         .withMessage(ERROR_MESSAGES.PASSWORD_STRING)
+         .isLength({ min: PASSWORD_MIN_LENGTH, max: PASSWORD_MAX_LENGTH })
+         .withMessage(ERROR_MESSAGES.PASSWORD_LENGTH),
    ]
 
-   public static signUpCeo = () => [
+   public static signUpCeo = (): ValidationChain[] => [
       body('username')
          .trim()
          .notEmpty()
-         .withMessage('Username is required.')
+         .withMessage(ERROR_MESSAGES.USERNAME_REQUIRED)
          .isString()
-         .withMessage('Username must be a string.'),
+         .withMessage(ERROR_MESSAGES.USERNAME_STRING),
 
       body('password')
          .trim()
          .notEmpty()
-         .withMessage('Password is required.')
+         .withMessage(ERROR_MESSAGES.PASSWORD_REQUIRED)
          .isString()
-         .withMessage('Password must be a string.')
-         .isLength({ min: 4, max: 16 })
-         .withMessage('Password must be between 4 and 16 characters long.'),
+         .withMessage(ERROR_MESSAGES.PASSWORD_STRING)
+         .isLength({ min: PASSWORD_MIN_LENGTH, max: PASSWORD_MAX_LENGTH })
+         .withMessage(ERROR_MESSAGES.PASSWORD_LENGTH),
 
       body('regKey')
          .trim()
          .notEmpty()
-         .withMessage('Registration key is required.')
+         .withMessage(ERROR_MESSAGES.REG_KEY_REQUIRED)
          .isString()
-         .withMessage('Registration key must be a string.'),
+         .withMessage(ERROR_MESSAGES.REG_KEY_STRING),
    ]
 
-   public static updateMe = () => [
+   public static updateMe = (): ValidationChain[] => [
       body('username')
          .optional()
          .trim()
          .notEmpty()
-         .withMessage('Username cannot be empty.')
+         .withMessage(ERROR_MESSAGES.USERNAME_EMPTY)
          .isString()
-         .withMessage('Username must be a string.'),
+         .withMessage(ERROR_MESSAGES.USERNAME_STRING),
 
       body('fullname')
          .optional()
          .trim()
          .notEmpty()
-         .withMessage('Fullname cannot be empty.')
+         .withMessage(ERROR_MESSAGES.FULLNAME_EMPTY)
          .isString()
-         .withMessage('Fullname must be a string.'),
-
-      body('email')
-         .optional()
-         .trim()
-         .notEmpty()
-         .withMessage('Email cannot be empty.')
-         .isEmail()
-         .withMessage('Email must be a valid email address.'),
+         .withMessage(ERROR_MESSAGES.FULLNAME_STRING),
 
       body('phone')
          .optional()
          .trim()
          .notEmpty()
-         .withMessage('Phone number cannot be empty.')
+         .withMessage(ERROR_MESSAGES.PHONE_EMPTY)
          .isString()
-         .withMessage('Phone number must be a string.')
-         .matches(/^\+998\d{9}$/)
-         .withMessage('Phone number must match +998XXXXXXXXX format.'),
-
-      body('licenseNumber')
-         .optional()
-         .trim()
-         .notEmpty()
-         .withMessage('License number cannot be empty.')
-         .isString()
-         .withMessage('License number must be a string.'),
+         .withMessage(ERROR_MESSAGES.PHONE_STRING)
+         .matches(PHONE_REGEX)
+         .withMessage(ERROR_MESSAGES.PHONE_FORMAT),
    ]
 
-   public static updatePassword = () => [
+   public static updatePassword = (): ValidationChain[] => [
       body('oldPassword')
          .trim()
          .notEmpty()
-         .withMessage('Current password is required.')
+         .withMessage(ERROR_MESSAGES.OLD_PASSWORD_REQUIRED)
          .isString()
-         .withMessage('Current password must be a string.')
-         .isLength({ min: 4, max: 16 })
-         .withMessage(
-            'Current password must be between 4 and 16 characters long.',
-         ),
+         .withMessage(ERROR_MESSAGES.OLD_PASSWORD_STRING)
+         .isLength({ min: PASSWORD_MIN_LENGTH, max: PASSWORD_MAX_LENGTH })
+         .withMessage(ERROR_MESSAGES.OLD_PASSWORD_LENGTH),
 
       body('newPassword')
          .trim()
          .notEmpty()
-         .withMessage('New password is required.')
+         .withMessage(ERROR_MESSAGES.NEW_PASSWORD_REQUIRED)
          .isString()
-         .withMessage('New password must be a string.')
-         .isLength({ min: 4, max: 16 })
-         .withMessage('New password must be between 4 and 16 characters long.'),
+         .withMessage(ERROR_MESSAGES.NEW_PASSWORD_STRING)
+         .isLength({ min: PASSWORD_MIN_LENGTH, max: PASSWORD_MAX_LENGTH })
+         .withMessage(ERROR_MESSAGES.NEW_PASSWORD_LENGTH),
    ]
 }
