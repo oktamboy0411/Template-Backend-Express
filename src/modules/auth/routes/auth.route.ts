@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { authMiddleware, validateMiddleware } from '@/middlewares'
+import { checkUser, validateMiddleware, verifyToken } from '@/middlewares'
 
 import { AuthController } from '../controllers/auth.controller'
 import { AuthValidator } from '../validators/auth.validator'
@@ -21,11 +21,12 @@ authRouter.post(
    AuthController.signUpCeo,
 )
 
-authRouter.get('/me', authMiddleware, AuthController.getMe)
+authRouter.get('/me', verifyToken, checkUser, AuthController.getMe)
 
 authRouter.patch(
    '/update-me',
-   authMiddleware,
+   verifyToken,
+   checkUser,
    AuthValidator.updateMe(),
    validateMiddleware,
    AuthController.updateMe,
@@ -33,7 +34,8 @@ authRouter.patch(
 
 authRouter.patch(
    '/update-password',
-   authMiddleware,
+   verifyToken,
+   checkUser,
    AuthValidator.updatePassword(),
    validateMiddleware,
    AuthController.updatePassword,

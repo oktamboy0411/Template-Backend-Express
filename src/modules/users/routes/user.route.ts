@@ -1,9 +1,10 @@
 import { Router } from 'express'
 
 import {
-   authMiddleware,
+   checkUser,
    roleMiddleware,
    validateMiddleware,
+   verifyToken,
 } from '@/middlewares'
 
 import { UserController } from '../controllers/user.controller'
@@ -13,7 +14,8 @@ const userRouter = Router()
 
 userRouter.post(
    '/create',
-   authMiddleware,
+   verifyToken,
+   checkUser,
    roleMiddleware(['ceo']),
    UserValidator.create(),
    validateMiddleware,
@@ -21,7 +23,8 @@ userRouter.post(
 )
 userRouter.put(
    '/update/:id',
-   authMiddleware,
+   verifyToken,
+   checkUser,
    roleMiddleware(['ceo']),
    UserValidator.update(),
    validateMiddleware,
@@ -29,7 +32,8 @@ userRouter.put(
 )
 userRouter.get(
    '/get-all',
-   authMiddleware,
+   verifyToken,
+   checkUser,
    roleMiddleware(['ceo']),
    UserValidator.getAll(),
    validateMiddleware,
@@ -37,7 +41,8 @@ userRouter.get(
 )
 userRouter.delete(
    '/delete/:id',
-   authMiddleware,
+   verifyToken,
+   checkUser,
    roleMiddleware(['ceo']),
    UserValidator.mongoId(),
    validateMiddleware,
@@ -45,7 +50,8 @@ userRouter.delete(
 )
 userRouter.get(
    '/get-one/:id',
-   authMiddleware,
+   verifyToken,
+   checkUser,
    roleMiddleware(['ceo']),
    UserValidator.mongoId(),
    validateMiddleware,
