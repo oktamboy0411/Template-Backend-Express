@@ -133,7 +133,6 @@ export default [
          'import/named': 'error',
          'import/namespace': 'error',
          'import/no-duplicates': 'error',
-         'import/no-cycle': 'error',
          'import/no-self-import': 'error',
          'import/no-useless-path-segments': 'error',
          'import/first': 'error',

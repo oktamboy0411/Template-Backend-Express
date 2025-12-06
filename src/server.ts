@@ -3,7 +3,7 @@ import 'module-alias/register'
 import 'regenerator-runtime/runtime'
 
 import { App } from './app'
-import { cronJobs } from './utils'
+import { cronJobs } from './utils/cron-jobs'
 import { PORT } from './utils/secrets'
 
 cronJobs()
