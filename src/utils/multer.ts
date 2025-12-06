@@ -1,19 +1,23 @@
-import path from 'path'
-
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import multer from 'multer'
+import path from 'node:path'
 
 import { HttpException } from './http.exception'
+
+const ALLOWED_FILE_TYPES = /jpeg|png|jpg|avif|webp|pdf/
+const FILE_SIZE_MB = 50
+const BYTES_PER_KB = 1024
+const BYTES_PER_MB = BYTES_PER_KB * BYTES_PER_KB
+const MAX_FILE_SIZE = FILE_SIZE_MB * BYTES_PER_MB
 
 const checkFileType = (
    file: Express.Multer.File,
    cb: multer.FileFilterCallback,
-) => {
-   const filetypes = /jpeg|png|jpg|avif|webp|pdf/
-   const extname = filetypes.test(
-      path.extname(file.originalname)?.toLowerCase(),
+): void => {
+   const extname = ALLOWED_FILE_TYPES.test(
+      path.extname(file.originalname).toLowerCase(),
    )
-   const mimetype = filetypes.test(file.mimetype)
+   const mimetype = ALLOWED_FILE_TYPES.test(file.mimetype)
 
    if (mimetype && extname) {
       cb(null, true)
@@ -22,7 +26,7 @@ const checkFileType = (
          new HttpException(
             StatusCodes.UNPROCESSABLE_ENTITY,
             ReasonPhrases.UNPROCESSABLE_ENTITY,
-            'You can only upload image! Max size 50 MB!',
+            `Only jpeg, png, jpg, avif, webp, pdf files are allowed. Max size ${FILE_SIZE_MB} MB.`,
          ),
       )
    }
@@ -30,7 +34,7 @@ const checkFileType = (
 
 export const upload = multer({
    storage: multer.memoryStorage(),
-   limits: { fileSize: 50 * 1024 * 1024 }, // 50 MB
+   limits: { fileSize: MAX_FILE_SIZE },
    fileFilter: (req, file, cb) => {
       checkFileType(file, cb)
    },
