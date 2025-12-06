@@ -197,7 +197,11 @@ export class AuthController {
             updateData.username = username
          }
 
-         if (phone !== undefined && phone !== '' && phone !== user?.phone) {
+         if (
+            phone !== undefined &&
+            phone !== '' &&
+            phone !== (user?.phone ?? '')
+         ) {
             if (matches.some((m) => m.phone === phone)) {
                throw new HttpException(
                   StatusCodes.BAD_REQUEST,

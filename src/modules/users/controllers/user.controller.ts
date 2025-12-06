@@ -285,7 +285,11 @@ export class UserController {
             updateData.username = username
          }
 
-         if (phone !== undefined && phone !== '' && phone !== user.phone) {
+         if (
+            phone !== undefined &&
+            phone !== '' &&
+            phone !== (user.phone ?? '')
+         ) {
             checkDuplicatePhone(matches, phone)
             updateData.phone = phone
          }
