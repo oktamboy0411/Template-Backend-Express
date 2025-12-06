@@ -147,6 +147,7 @@ export class AuthController {
    )
 
    public static getMe = asyncHandler(
+      // eslint-disable-next-line require-await
       async (req: ICustomRequest, res: Response) => {
          const user = req.user
 
