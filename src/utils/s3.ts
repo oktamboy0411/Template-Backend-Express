@@ -14,6 +14,8 @@ import {
    AWS_S3_URL,
 } from './secrets'
 
+const STATUS_OK = 200
+
 const s3Client = new S3Client({
    region: AWS_S3_REGION,
    credentials: {
@@ -24,7 +26,7 @@ const s3Client = new S3Client({
 })
 
 const uploadFile = async (
-   buffer: any,
+   buffer: Buffer,
    key: string,
 ): Promise<string | undefined> => {
    try {
@@ -39,50 +41,58 @@ const uploadFile = async (
 
       const data = await upload.done()
 
-      if (data.$metadata.httpStatusCode === 200) {
-         return data.Location as string
+      if (data.$metadata.httpStatusCode === STATUS_OK) {
+         return data.Location
       }
    } catch (error) {
-      console.error('Error uploading file:', error)
+      const message =
+         error instanceof Error ? error.message : 'Failed to upload file'
+      throw new Error(`Error uploading file: ${message}`)
    }
 }
 
 const deleteFile = async (location: string): Promise<void> => {
+   if (location === '') {
+      return
+   }
+
    try {
-      if (location) {
-         const key = location?.split(AWS_S3_BUCKET_FOLDER)[1]
-         await s3Client.send(
-            new DeleteObjectCommand({
-               Bucket: AWS_S3_BUCKET_NAME,
-               Key: AWS_S3_BUCKET_FOLDER + key,
-            }),
-         )
-      }
+      const key = location.split(AWS_S3_BUCKET_FOLDER)[1]
+      await s3Client.send(
+         new DeleteObjectCommand({
+            Bucket: AWS_S3_BUCKET_NAME,
+            Key: AWS_S3_BUCKET_FOLDER + key,
+         }),
+      )
    } catch (error) {
-      console.error('Error deleting object:', error)
+      const message =
+         error instanceof Error ? error.message : 'Failed to delete file'
+      throw new Error(`Error deleting file: ${message}`)
    }
 }
 
 const checkFileExists = async (location: string): Promise<boolean> => {
-   try {
-      if (location) {
-         const key = location.split(AWS_S3_BUCKET_FOLDER)[1]
-         await s3Client.send(
-            new HeadObjectCommand({
-               Bucket: AWS_S3_BUCKET_NAME,
-               Key: AWS_S3_BUCKET_FOLDER + key,
-            }),
-         )
-         return true
-      }
+   if (location === '') {
       return false
-   } catch (error: any) {
-      if (error.name === 'NotFound') {
+   }
+
+   try {
+      const key = location.split(AWS_S3_BUCKET_FOLDER)[1]
+      await s3Client.send(
+         new HeadObjectCommand({
+            Bucket: AWS_S3_BUCKET_NAME,
+            Key: AWS_S3_BUCKET_FOLDER + key,
+         }),
+      )
+      return true
+   } catch (error) {
+      if (error instanceof Error && error.name === 'NotFound') {
          return false
       }
-      console.error('Error checking file existence:', error)
-      throw error
+      const message =
+         error instanceof Error ? error.message : 'Failed to check file'
+      throw new Error(`Error checking file existence: ${message}`)
    }
 }
 
-export { uploadFile, deleteFile, checkFileExists }
+export { checkFileExists, deleteFile, uploadFile }
