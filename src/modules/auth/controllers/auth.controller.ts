@@ -99,25 +99,23 @@ export class AuthController {
 
    public static updateMe = asyncHandler(async (req, res) => {
       const user = req.user
-      const { fullname, username, email, phone, licenseNumber } = req.body
+      const { fullname, username, phone } = req.body
 
       const orConditions: any[] = []
       const updateData: any = {}
 
       if (username) orConditions.push({ username })
-      if (email) orConditions.push({ email })
       if (phone) orConditions.push({ phone })
 
       const matches = orConditions.length
          ? await userModel
               .find({ $or: orConditions })
-              .select('username email phone')
+              .select('username phone')
               .lean()
               .exec()
          : []
 
       if (fullname) updateData.fullname = fullname
-      if (licenseNumber) updateData.licenseNumber = licenseNumber
 
       if (username && username !== user?.username) {
          if (matches.some((m) => m.username === username)) {
@@ -128,17 +126,6 @@ export class AuthController {
             )
          }
          updateData.username = username
-      }
-
-      if (email && email !== user?.email) {
-         if (matches.some((m) => m.email === email)) {
-            throw new HttpException(
-               StatusCodes.BAD_REQUEST,
-               ReasonPhrases.BAD_REQUEST,
-               'Email already in use!',
-            )
-         }
-         updateData.email = email
       }
 
       if (phone && phone !== user?.phone) {

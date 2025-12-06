@@ -95,7 +95,7 @@ export default [
             'error',
             {
                selector: 'variable',
-               format: ['camelCase', 'UPPER_CASE'],
+               format: ['camelCase', 'UPPER_CASE', 'snake_case'],
                leadingUnderscore: 'allow',
             },
             {
