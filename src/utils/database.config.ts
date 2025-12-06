@@ -1,14 +1,22 @@
+/* eslint-disable no-console */
 import { connect } from 'mongoose'
 
 import { MONGO_URI } from './secrets'
 
-export const CONNECT_DB = async () => {
+export const CONNECT_DB = async (): Promise<void> => {
    try {
       const { connections } = await connect(MONGO_URI)
+
+      const [connection] = connections
+
       console.info(
-         `⚡️[DB]: Name:${connections[0].name}; ${connections[0].host}:${connections[0].port}`,
+         `[DB] Connected successfully to database: ${connection.name} at ${connection.host}:${connection.port}`,
       )
-   } catch (err) {
-      console.error(err)
+   } catch (error) {
+      console.error(
+         '[DB] Failed to connect to database:',
+         error instanceof Error ? error.message : error,
+      )
+      throw error
    }
 }
