@@ -37,7 +37,7 @@ export class AuthController {
          )
       }
 
-      const accessToken = JwtHelpers.sign(user._id.toString(), user.role, '7d')
+      const accessToken = JwtHelpers.sign(user._id.toString(), '7d')
 
       res.status(StatusCodes.OK).json({
          success: true,
