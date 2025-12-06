@@ -1,43 +1,95 @@
+/* eslint-disable */
 ;(function () {
-   var KEY = 'swagger_bearer_token'
-   function init() {
-      try {
-         var system = window.ui && window.ui.getSystem && window.ui.getSystem()
-         var authActions = system && system.authActions
-         if (!authActions) return
-         var origAuthorize = authActions.authorize
-         authActions.authorize = function (payload) {
-            try {
-               if (payload && payload.bearerAuth && payload.bearerAuth.value) {
-                  var token = payload.bearerAuth.value
-                  localStorage.setItem(KEY, token)
-               }
-            } catch (e) {}
-            return origAuthorize(payload)
-         }
-         // Auto-authorize from stored token
-         var stored = localStorage.getItem(KEY)
-         if (stored) {
-            try {
-               authActions.authorize({
-                  bearerAuth: {
-                     name: 'bearerAuth',
-                     schema: { type: 'http', scheme: 'bearer' },
-                     value: stored,
-                  },
-               })
-            } catch (e) {}
-         }
-      } catch (e) {}
-   }
-   var t = setInterval(function () {
-      if (
-         window.ui &&
-         window.ui.getSystem &&
-         window.ui.getSystem().authActions
-      ) {
-         clearInterval(t)
-         init()
+   const STORAGE_KEY = 'swagger_bearer_token'
+   const POLL_INTERVAL = 300
+   const BEARER_AUTH_NAME = 'bearerAuth'
+   const AUTH_SCHEME_TYPE = 'http'
+   const AUTH_SCHEME = 'bearer'
+
+   function getAuthActions() {
+      if (!window.ui || !window.ui.getSystem) {
+         return null
       }
-   }, 300)
+      const system = window.ui.getSystem()
+      return system && system.authActions ? system.authActions : null
+   }
+
+   function saveToken(token) {
+      try {
+         localStorage.setItem(STORAGE_KEY, token)
+      } catch (error) {
+         console.error('Failed to save token:', error)
+      }
+   }
+
+   function getStoredToken() {
+      try {
+         return localStorage.getItem(STORAGE_KEY)
+      } catch (error) {
+         console.error('Failed to retrieve token:', error)
+         return null
+      }
+   }
+
+   function createAuthPayload(token) {
+      const payload = {}
+      payload[BEARER_AUTH_NAME] = {
+         name: BEARER_AUTH_NAME,
+         schema: {
+            type: AUTH_SCHEME_TYPE,
+            scheme: AUTH_SCHEME,
+         },
+         value: token,
+      }
+      return payload
+   }
+
+   function setupAuthInterceptor(authActions) {
+      const originalAuthorize = authActions.authorize
+
+      authActions.authorize = function (payload) {
+         if (
+            payload &&
+            payload[BEARER_AUTH_NAME] &&
+            payload[BEARER_AUTH_NAME].value
+         ) {
+            saveToken(payload[BEARER_AUTH_NAME].value)
+         }
+         return originalAuthorize(payload)
+      }
+   }
+
+   function autoAuthorizeFromStorage(authActions) {
+      const storedToken = getStoredToken()
+      if (storedToken) {
+         try {
+            const authPayload = createAuthPayload(storedToken)
+            authActions.authorize(authPayload)
+         } catch (error) {
+            console.error('Failed to auto-authorize:', error)
+         }
+      }
+   }
+
+   function initialize() {
+      const authActions = getAuthActions()
+      if (!authActions) {
+         return
+      }
+
+      setupAuthInterceptor(authActions)
+      autoAuthorizeFromStorage(authActions)
+   }
+
+   function startPolling() {
+      const pollInterval = setInterval(function () {
+         const authActions = getAuthActions()
+         if (authActions) {
+            clearInterval(pollInterval)
+            initialize()
+         }
+      }, POLL_INTERVAL)
+   }
+
+   startPolling()
 })()
