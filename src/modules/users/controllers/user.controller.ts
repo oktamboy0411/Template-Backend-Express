@@ -20,9 +20,10 @@ export class UserController {
          licenseNumber,
       } = req.body as IUserDocument
 
-      const matches = await userModel.find({
-         $or: [{ username }, { email }, { phone }],
-      })
+      const matches = await userModel
+         .find({
+            $or: [{ username }, { email }, { phone }],
+         })
          .select('username email phone')
          .lean()
          .exec()
@@ -98,7 +99,8 @@ export class UserController {
          '_id username fullname email phone role created_at status section'
 
       const [result, total] = await Promise.all([
-         userModel.find(queryObj)
+         userModel
+            .find(queryObj)
             .select(projection)
             .sort({ created_at: -1 })
             .skip((page - 1) * limit)
@@ -165,7 +167,8 @@ export class UserController {
       if (phone) orConditions.push({ phone })
 
       const matches = orConditions.length
-         ? await userModel.find({ $or: orConditions })
+         ? await userModel
+              .find({ $or: orConditions })
               .select('username email phone')
               .lean()
               .exec()

@@ -1,6 +1,7 @@
 import js from '@eslint/js'
 import typescript from '@typescript-eslint/eslint-plugin'
 import typescriptParser from '@typescript-eslint/parser'
+
 import prettierConfig from 'eslint-config-prettier'
 import importPlugin from 'eslint-plugin-import'
 import preferArrow from 'eslint-plugin-prefer-arrow'
@@ -138,24 +139,7 @@ export default [
          'import/no-useless-path-segments': 'error',
          'import/first': 'error',
          'import/newline-after-import': 'error',
-         'import/order': [
-            'error',
-            {
-               groups: [
-                  'builtin',
-                  'external',
-                  'internal',
-                  'parent',
-                  'sibling',
-                  'index',
-               ],
-               'newlines-between': 'always',
-               alphabetize: {
-                  order: 'asc',
-                  caseInsensitive: true,
-               },
-            },
-         ],
+         'import/order': 'off',
 
          // === TypeScript qoidalari ===
          '@typescript-eslint/explicit-function-return-type': [

@@ -109,7 +109,8 @@ export class AuthController {
       if (phone) orConditions.push({ phone })
 
       const matches = orConditions.length
-         ? await userModel.find({ $or: orConditions })
+         ? await userModel
+              .find({ $or: orConditions })
               .select('username email phone')
               .lean()
               .exec()

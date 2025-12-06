@@ -8,8 +8,14 @@
    "printWidth": 80,
    "semi": false,
    "endOfLine": "auto",
-   "importOrder": ["^@/(.*)$", "^[./]"],
+   "importOrder": [
+      "^(path|fs|os|crypto|http|https|url|util)$",
+      "^[a-z]",
+      "^@/(.*)$",
+      "^[./]"
+   ],
    "importOrderSeparation": true,
    "importOrderSortSpecifiers": true,
+   "importOrderParserPlugins": ["typescript", "decorators-legacy"],
    "plugins": ["@trivago/prettier-plugin-sort-imports"]
 }
