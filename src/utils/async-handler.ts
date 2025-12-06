@@ -1,20 +1,16 @@
-import type { NextFunction, Request, Response } from 'express'
+import type { NextFunction, Response } from 'express'
 
-import type { UserDocumentI } from '@/modules/users'
-
-export interface CustomRequest extends Request {
-   user?: UserDocumentI
-}
+import type { ICustomRequest } from '@/types'
 
 type AsyncFunction = (
-   req: CustomRequest,
+   req: ICustomRequest,
    res: Response,
    next: NextFunction,
 ) => Promise<any>
 
 export const asyncHandler =
    (fn: AsyncFunction) =>
-   async (req: CustomRequest, res: Response, next: NextFunction) => {
+   async (req: ICustomRequest, res: Response, next: NextFunction) => {
       try {
          await fn(req, res, next)
       } catch (error) {
@@ -23,14 +19,14 @@ export const asyncHandler =
    }
 
 type NoAsyncFunction = (
-   req: CustomRequest,
+   req: ICustomRequest,
    res: Response,
    next: NextFunction,
 ) => any
 
 export const noAsyncHandler =
    (fn: NoAsyncFunction) =>
-   (req: CustomRequest, res: Response, next: NextFunction) => {
+   (req: ICustomRequest, res: Response, next: NextFunction) => {
       try {
          fn(req, res, next)
       } catch (error) {

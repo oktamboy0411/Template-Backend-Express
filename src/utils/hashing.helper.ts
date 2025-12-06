@@ -1,12 +1,8 @@
 import bcrypt from 'bcryptjs'
 
-export interface Bcrypt {
-   compare: (data: string | Buffer, encrypted: string) => Promise<boolean>
-   genSalt: (rounds?: number, minor?: 'a' | 'b') => Promise<string>
-   hash: (a: string, b: string) => string
-}
+import type { IBcrypt } from '@/types'
 
-const { compare, genSalt, hash } = bcrypt as unknown as Bcrypt
+const { compare, genSalt, hash } = bcrypt as unknown as IBcrypt
 
 export class HashingHelpers {
    public static async generatePassword(

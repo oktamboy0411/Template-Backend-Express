@@ -1,6 +1,7 @@
 import { Router } from 'express'
 
-import { authMiddleware, upload } from '@/utils'
+import { authMiddleware } from '@/middlewares'
+import { upload } from '@/utils'
 
 import { UploadController } from '../controllers/upload.controller'
 

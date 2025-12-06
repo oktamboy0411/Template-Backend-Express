@@ -3,7 +3,7 @@ import { rateLimit } from 'express-rate-limit'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import os from 'os'
 
-import { HttpException } from './http.exception'
+import { HttpException } from '@/utils/http.exception'
 
 export const rateLimiter = (minute: number, max: number) => {
    const cpuCount = Math.max(1, os.cpus().length)

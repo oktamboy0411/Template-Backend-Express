@@ -1,17 +1,11 @@
-import { OPENWEATHER_API_KEY } from './secrets'
+import type { IWeatherResult } from '@/types'
 
-export interface WeatherResult {
-   temp: number
-   icon: string
-   city: string
-   main: string
-   description: string
-}
+import { OPENWEATHER_API_KEY } from './secrets'
 
 export const fetchWeatherWithCity = async (
    cityW: string,
-): Promise<WeatherResult> => {
-   const defaultResult: WeatherResult = {
+): Promise<IWeatherResult> => {
+   const defaultResult: IWeatherResult = {
       temp: 0,
       icon: '',
       city: cityW,

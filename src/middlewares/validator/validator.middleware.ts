@@ -2,11 +2,11 @@ import type { NextFunction, Response } from 'express'
 import { validationResult } from 'express-validator'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import type { CustomRequest } from '../../utils'
-import { HttpException } from '../../utils'
+import type { ICustomRequest } from '@/types'
+import { HttpException } from '@/utils'
 
 export const validateMiddleware = (
-   req: CustomRequest,
+   req: ICustomRequest,
    res: Response,
    next: NextFunction,
 ) => {

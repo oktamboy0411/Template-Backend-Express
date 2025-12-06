@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import type { HttpException } from './http.exception'
+import type { HttpException } from '@/utils/http.exception'
 
 export const errorMiddleware = (
    error: HttpException,

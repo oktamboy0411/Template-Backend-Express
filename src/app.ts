@@ -7,16 +7,11 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import path from 'path'
 import swaggerUi from 'swagger-ui-express'
 
+import { errorMiddleware } from '@/middlewares'
 import { Routes } from '@/modules'
 
 import { Swagger } from './swaggers'
-import {
-   CONNECT_DB,
-   HttpException,
-   IP,
-   errorMiddleware,
-   noAsyncHandler,
-} from './utils'
+import { CONNECT_DB, HttpException, IP, noAsyncHandler } from './utils'
 
 export class App {
    public app: Application
