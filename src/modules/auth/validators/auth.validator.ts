@@ -36,7 +36,7 @@ export class AuthValidator {
          .isLength({ min: 4, max: 16 })
          .withMessage('Password must be between 4 and 16 characters long.'),
 
-      body('reg_key')
+      body('regKey')
          .trim()
          .notEmpty()
          .withMessage('Registration key is required.')
@@ -79,7 +79,7 @@ export class AuthValidator {
          .matches(/^\+998\d{9}$/)
          .withMessage('Phone number must match +998XXXXXXXXX format.'),
 
-      body('license_number')
+      body('licenseNumber')
          .optional()
          .trim()
          .notEmpty()
@@ -89,7 +89,7 @@ export class AuthValidator {
    ]
 
    public static updatePassword = () => [
-      body('old_password')
+      body('oldPassword')
          .trim()
          .notEmpty()
          .withMessage('Current password is required.')
@@ -100,7 +100,7 @@ export class AuthValidator {
             'Current password must be between 4 and 16 characters long.',
          ),
 
-      body('new_password')
+      body('newPassword')
          .trim()
          .notEmpty()
          .withMessage('New password is required.')

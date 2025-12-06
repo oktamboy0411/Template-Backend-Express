@@ -1,9 +1,9 @@
-import type { SwaggerEndpointType, SwaggerType } from '../../types'
+import type { ISwagger, ISwaggerEndpoint } from '../../types'
 
-export function addSwaggerEndpoint(
-   swagger: SwaggerType,
-   endpoint: SwaggerEndpointType,
-) {
+export const addSwaggerEndpoint = (
+   swagger: ISwagger,
+   endpoint: ISwaggerEndpoint,
+): void => {
    endpoint.paths.forEach((path) => {
       swagger.paths[`/${endpoint.endpoint}/${path.path}`] = path.body
    })

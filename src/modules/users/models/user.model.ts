@@ -1,11 +1,11 @@
 import { Schema, model } from 'mongoose'
 
 import {
-   CollectionConstants,
-   PermissionConstants,
-   RoleConstants,
-   SectionConstants,
-   StatusConstants,
+   collectionConstants,
+   permissionConstants,
+   roleConstants,
+   sectionConstants,
+   statusConstants,
 } from '@/constants'
 import type {
    PermissionConstantsType,
@@ -14,7 +14,7 @@ import type {
    StatusConstantsType,
 } from '@/types'
 
-export interface UserDocumentI {
+export interface IUserDocument {
    _id: string
    fullname: string
    username: string
@@ -22,13 +22,13 @@ export interface UserDocumentI {
    phone: string
    role: RoleConstantsType
    section: SectionConstantsType
-   license_number: string
+   licenseNumber: string
    password: string
    permissions: PermissionConstantsType[]
    status: StatusConstantsType
 }
 
-const documentSchema = new Schema<UserDocumentI>(
+const documentSchema = new Schema<IUserDocument>(
    {
       fullname: { type: String },
       username: { type: String, required: true, unique: true },
@@ -36,22 +36,22 @@ const documentSchema = new Schema<UserDocumentI>(
       phone: { type: String },
       role: {
          type: String,
-         enum: Object.values(RoleConstants),
+         enum: Object.values(roleConstants),
          required: true,
       },
       section: {
          type: String,
-         enum: Object.values(SectionConstants),
+         enum: Object.values(sectionConstants),
       },
-      license_number: { type: String },
+      licenseNumber: { type: String },
       password: { type: String, required: true, select: false },
       permissions: {
          type: [String],
-         enum: Object.values(PermissionConstants),
+         enum: Object.values(permissionConstants),
       },
       status: {
          type: String,
-         enum: Object.values(StatusConstants),
+         enum: Object.values(statusConstants),
       },
    },
    {
@@ -60,8 +60,8 @@ const documentSchema = new Schema<UserDocumentI>(
    },
 )
 
-export const UserModel = model<UserDocumentI>(
-   CollectionConstants.USER,
+export const userModel = model<IUserDocument>(
+   collectionConstants.USER,
    documentSchema,
-   CollectionConstants.USER,
+   collectionConstants.USER,
 )

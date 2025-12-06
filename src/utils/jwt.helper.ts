@@ -4,12 +4,12 @@ import pkg from 'jsonwebtoken'
 import { HttpException } from './http.exception'
 import { JWT_SECRET, JWT_SECRET_REFRESH } from './secrets'
 
-interface JWT {
+interface IJWT {
    verify: (token: string, secretKey: string) => { id: string }
    sign: (payload: object, secretOrPrivateKey: string, options?: any) => string
 }
 
-const { sign: jwtSign, verify: jwtVerify } = pkg as unknown as JWT
+const { sign: jwtSign, verify: jwtVerify } = pkg as unknown as IJWT
 
 export class JwtHelpers {
    public static sign(id: string, role: string, expiresIn: string): string {

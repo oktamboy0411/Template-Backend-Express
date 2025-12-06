@@ -1,4 +1,4 @@
-export const RoleConstants = {
+export const roleConstants = {
    ADMIN: 'admin',
    CEO: 'ceo',
    DOCTOR: 'doctor',

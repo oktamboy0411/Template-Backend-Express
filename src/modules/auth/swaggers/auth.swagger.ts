@@ -1,4 +1,4 @@
-export const AuthSwagger = {
+export const authSwagger = {
    endpoint: 'auth',
    paths: [
       {
@@ -31,7 +31,7 @@ export const AuthSwagger = {
                               type: 'object',
                               properties: {
                                  success: { type: 'boolean', example: true },
-                                 access_token: {
+                                 accessToken: {
                                     type: 'string',
                                     example: 'eyJhbGciOi...',
                                  },
@@ -61,12 +61,12 @@ export const AuthSwagger = {
                            properties: {
                               username: { type: 'string', example: 'ceo123' },
                               password: { type: 'string', example: 'password' },
-                              reg_key: {
+                              regKey: {
                                  type: 'string',
                                  example: 'registrationkey789',
                               },
                            },
-                           required: ['username', 'password', 'reg_key'],
+                           required: ['username', 'password', 'regKey'],
                         },
                      },
                   },
@@ -152,7 +152,7 @@ export const AuthSwagger = {
                                  type: 'string',
                                  example: '+998901234567',
                               },
-                              license_number: { type: 'string' },
+                              licenseNumber: { type: 'string' },
                            },
                         },
                      },
@@ -180,16 +180,16 @@ export const AuthSwagger = {
                         schema: {
                            type: 'object',
                            properties: {
-                              old_password: {
+                              oldPassword: {
                                  type: 'string',
                                  example: 'oldPass',
                               },
-                              new_password: {
+                              newPassword: {
                                  type: 'string',
                                  example: 'newPass123',
                               },
                            },
-                           required: ['old_password', 'new_password'],
+                           required: ['oldPassword', 'newPassword'],
                         },
                      },
                   },

@@ -1,6 +1,6 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import { RoleConstants } from '@/constants'
+import { roleConstants } from '@/constants'
 import {
    HashingHelpers,
    HttpException,
@@ -9,13 +9,13 @@ import {
    asyncHandler,
 } from '@/utils'
 
-import { UserModel } from '../../users/models/user.model'
+import { userModel } from '../../users/models/user.model'
 
 export class AuthController {
    public static login = asyncHandler(async (req, res) => {
       const { username, password } = req.body
 
-      const user = await UserModel.findOne({ username }).select('+password')
+      const user = await userModel.findOne({ username }).select('+password')
 
       if (!user) {
          throw new HttpException(
@@ -37,18 +37,18 @@ export class AuthController {
          )
       }
 
-      const access_token = JwtHelpers.sign(user._id.toString(), user.role, '7d')
+      const accessToken = JwtHelpers.sign(user._id.toString(), user.role, '7d')
 
       res.status(StatusCodes.OK).json({
          success: true,
-         access_token,
+         accessToken,
       })
    })
 
    public static signUpCeo = asyncHandler(async (req, res) => {
-      const { username, password, reg_key } = req.body
+      const { username, password, regKey } = req.body
 
-      if (reg_key !== REG_KEY) {
+      if (regKey !== REG_KEY) {
          throw new HttpException(
             StatusCodes.BAD_REQUEST,
             ReasonPhrases.BAD_REQUEST,
@@ -57,8 +57,8 @@ export class AuthController {
       }
 
       const [existingCeo, existingUser] = await Promise.all([
-         UserModel.findOne({ role: RoleConstants.CEO }),
-         UserModel.findOne({ username }),
+         userModel.findOne({ role: roleConstants.CEO }),
+         userModel.findOne({ username }),
       ])
 
       if (existingCeo) {
@@ -79,8 +79,8 @@ export class AuthController {
 
       const hashed = await HashingHelpers.generatePassword(password)
 
-      await UserModel.create({
-         role: RoleConstants.CEO,
+      await userModel.create({
+         role: roleConstants.CEO,
          password: hashed,
          username,
       })
@@ -99,7 +99,7 @@ export class AuthController {
 
    public static updateMe = asyncHandler(async (req, res) => {
       const user = req.user
-      const { fullname, username, email, phone, license_number } = req.body
+      const { fullname, username, email, phone, licenseNumber } = req.body
 
       const orConditions: any[] = []
       const updateData: any = {}
@@ -109,14 +109,14 @@ export class AuthController {
       if (phone) orConditions.push({ phone })
 
       const matches = orConditions.length
-         ? await UserModel.find({ $or: orConditions })
+         ? await userModel.find({ $or: orConditions })
               .select('username email phone')
               .lean()
               .exec()
          : []
 
       if (fullname) updateData.fullname = fullname
-      if (license_number) updateData.license_number = license_number
+      if (licenseNumber) updateData.licenseNumber = licenseNumber
 
       if (username && username !== user?.username) {
          if (matches.some((m) => m.username === username)) {
@@ -151,7 +151,7 @@ export class AuthController {
          updateData.phone = phone
       }
 
-      await UserModel.findByIdAndUpdate(user?._id, { $set: updateData })
+      await userModel.findByIdAndUpdate(user?._id, { $set: updateData })
 
       res.status(StatusCodes.OK).json({
          success: true,
@@ -161,13 +161,13 @@ export class AuthController {
 
    public static updatePassword = asyncHandler(async (req, res) => {
       const user = req.user
-      const { old_password, new_password } = req.body as any
+      const { oldPassword, newPassword } = req.body as any
 
-      const oldUser = await UserModel.findById(user?._id).select('+password')
+      const oldUser = await userModel.findById(user?._id).select('+password')
 
       const [isMatch, isNewMatch] = await Promise.all([
-         HashingHelpers.comparePassword(old_password, oldUser?.password || ''),
-         HashingHelpers.comparePassword(new_password, oldUser?.password || ''),
+         HashingHelpers.comparePassword(oldPassword, oldUser?.password || ''),
+         HashingHelpers.comparePassword(newPassword, oldUser?.password || ''),
       ])
 
       if (!isMatch) {
@@ -186,9 +186,9 @@ export class AuthController {
          )
       }
 
-      const hashedPassword = await HashingHelpers.generatePassword(new_password)
+      const hashedPassword = await HashingHelpers.generatePassword(newPassword)
 
-      await UserModel.findByIdAndUpdate(user?._id, { password: hashedPassword })
+      await userModel.findByIdAndUpdate(user?._id, { password: hashedPassword })
 
       res.status(StatusCodes.OK).json({
          success: true,

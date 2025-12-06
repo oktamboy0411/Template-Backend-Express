@@ -1,4 +1,4 @@
-export const SectionConstants = {
+export const sectionConstants = {
    TERAPIYA: 'terapiya',
    PEDIATRIYA: 'pediatriya',
    XIRURGIYA: 'xirurgiya',

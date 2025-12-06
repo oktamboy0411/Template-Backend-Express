@@ -1,4 +1,4 @@
-export const UserSwagger = {
+export const userSwagger = {
    endpoint: 'user',
    paths: [
       {
@@ -32,7 +32,7 @@ export const UserSwagger = {
                                  type: 'array',
                                  items: { type: 'string' },
                               },
-                              license_number: {
+                              licenseNumber: {
                                  type: 'string',
                                  example: 'LN-1234',
                               },
@@ -192,7 +192,7 @@ export const UserSwagger = {
                                           type: 'string',
                                           format: 'date-time',
                                        },
-                                       license_number: { type: 'string' },
+                                       licenseNumber: { type: 'string' },
                                     },
                                  },
                               },
@@ -235,7 +235,7 @@ export const UserSwagger = {
                               phone: { type: 'string' },
                               role: { type: 'string' },
                               section: { type: 'string' },
-                              license_number: { type: 'string' },
+                              licenseNumber: { type: 'string' },
                               password: { type: 'string' },
                               permissions: {
                                  type: 'array',

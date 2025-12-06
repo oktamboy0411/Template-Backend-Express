@@ -2,7 +2,7 @@ import cron from 'node-cron'
 
 import { UploadController } from '@/modules'
 
-export function CronJobs() {
+export const cronJobs = (): void => {
    cron.schedule('59 23 * * *', () => {
       UploadController.deleteFileWithCron()
          .then((deletedFiles) => {

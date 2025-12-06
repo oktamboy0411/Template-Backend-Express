@@ -8,9 +8,9 @@ import path from 'path'
 import swaggerUi from 'swagger-ui-express'
 
 import { errorMiddleware } from '@/middlewares'
-import { Routes } from '@/modules'
+import { routes } from '@/modules'
 
-import { Swagger } from './swaggers'
+import { swagger } from './swaggers'
 import { CONNECT_DB, HttpException, IP, noAsyncHandler } from './utils'
 
 export class App {
@@ -49,8 +49,8 @@ export class App {
    private initializeDocumentation(): void {
       this.app.use(
          '/api-docs/',
-         swaggerUi.serveFiles(Swagger),
-         swaggerUi.setup(Swagger, {
+         swaggerUi.serveFiles(swagger),
+         swaggerUi.setup(swagger, {
             swaggerOptions: { persistAuthorization: true },
             customJs: '/public/swagger-custom.js',
          }),
@@ -67,7 +67,7 @@ export class App {
             }),
          ),
       )
-      Routes.forEach((controller: { path: string; router: Router }) => {
+      routes.forEach((controller: { path: string; router: Router }) => {
          this.app.use(controller.path, controller.router)
       })
       this.app.all(/.*/, (req, res, next) => {

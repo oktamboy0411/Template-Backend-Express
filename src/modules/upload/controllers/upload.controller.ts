@@ -7,7 +7,7 @@ import { v4 } from 'uuid'
 
 import { HttpException, asyncHandler, deleteFile, uploadFile } from '@/utils'
 
-import { UploadModel } from '../models/upload.model'
+import { uploadModel } from '../models/upload.model'
 
 export class UploadController {
    public static uploadFile = asyncHandler(async (req, res) => {
@@ -91,9 +91,9 @@ export class UploadController {
          )
       }
 
-      const file_path = await uploadFile(processedBuffer, fileKey)
+      const filePath = await uploadFile(processedBuffer, fileKey)
 
-      if (!file_path) {
+      if (!filePath) {
          throw new HttpException(
             StatusCodes.BAD_REQUEST,
             ReasonPhrases.BAD_REQUEST,
@@ -101,11 +101,11 @@ export class UploadController {
          )
       }
 
-      await UploadModel.create({ file_path, user: req.user?._id })
+      await uploadModel.create({ filePath, user: req.user?._id })
 
       res.status(StatusCodes.CREATED).json({
          success: true,
-         file_path,
+         filePath,
       })
    })
 
@@ -187,13 +187,13 @@ export class UploadController {
                return null
             }
 
-            const file_path = await uploadFile(processedBuffer, fileKey)
-            if (!file_path) {
+            const filePath = await uploadFile(processedBuffer, fileKey)
+            if (!filePath) {
                return null
             }
 
-            await UploadModel.create({ file_path, user: req.user?._id })
-            return file_path
+            await uploadModel.create({ filePath, user: req.user?._id })
+            return filePath
          }),
       )
 
@@ -217,15 +217,15 @@ export class UploadController {
       try {
          const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000)
          const files = (
-            await UploadModel.find(
+            await uploadModel.find(
                { is_use: false, created_at: { $lt: oneDayAgo } },
                null,
                { lean: true },
             )
-         ).map((item) => item.file_path)
+         ).map((item) => item.filePath)
          for (const item of files) {
             void deleteFile(item)
-            await UploadModel.deleteOne({ file_path: item })
+            await uploadModel.deleteOne({ filePath: item })
          }
 
          return files.length.toString()

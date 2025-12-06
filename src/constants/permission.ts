@@ -1,4 +1,4 @@
-export const PermissionConstants = {
+export const permissionConstants = {
    READ: 'read',
    WRITE: 'write',
    DELETE: 'delete',

@@ -1,7 +1,7 @@
-import type { SwaggerType } from '../../types'
+import type { ISwagger } from '../../types'
 import { PORT } from '../../utils'
 
-export const Swagger: SwaggerType = {
+export const swagger: ISwagger = {
    openapi: '3.1.0',
    info: {
       title: 'API Documentation',

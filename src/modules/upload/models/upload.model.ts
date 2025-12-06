@@ -1,32 +1,32 @@
 import { Schema, model } from 'mongoose'
 
-import { CollectionConstants } from '@/constants'
+import { collectionConstants } from '@/constants'
 import type { CollectionConstantsType } from '@/types'
 
-export interface UploadDocumentI {
+export interface IUploadDocument {
    user: object
-   file_path: string
-   is_use: boolean
-   where_used: CollectionConstantsType
-   created_at: Date
+   filePath: string
+   isUse: boolean
+   whereUsed: CollectionConstantsType
+   createdAt: Date
 }
 
-const documentSchema = new Schema<UploadDocumentI>(
+const documentSchema = new Schema<IUploadDocument>(
    {
       user: { type: Object },
-      file_path: { type: String, required: true },
-      is_use: { type: Boolean, required: true, default: false },
-      where_used: {
+      filePath: { type: String, required: true },
+      isUse: { type: Boolean, required: true, default: false },
+      whereUsed: {
          type: String,
-         enum: Object.values(CollectionConstants),
+         enum: Object.values(collectionConstants),
       },
-      created_at: { type: Date, default: Date.now },
+      createdAt: { type: Date, default: Date.now },
    },
    { versionKey: false },
 )
 
-export const UploadModel = model<UploadDocumentI>(
-   CollectionConstants.UPLOAD,
+export const uploadModel = model<IUploadDocument>(
+   collectionConstants.UPLOAD,
    documentSchema,
-   CollectionConstants.UPLOAD,
+   collectionConstants.UPLOAD,
 )

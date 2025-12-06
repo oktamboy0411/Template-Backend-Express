@@ -1,9 +1,7 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import { UserModel } from '@/modules/users'
-import { asyncHandler } from '@/utils/async-handler'
-import { HttpException } from '@/utils/http.exception'
-import { JwtHelpers } from '@/utils/jwt.helper'
+import { userModel } from '@/modules'
+import { HttpException, JwtHelpers, asyncHandler } from '@/utils'
 
 export const authMiddleware = asyncHandler(async (req, res, next) => {
    let token
@@ -30,7 +28,7 @@ export const authMiddleware = asyncHandler(async (req, res, next) => {
       )
    }
 
-   const user = await UserModel.findById(decoded.id)
+   const user = await userModel.findById(decoded.id)
 
    if (!user) {
       throw new HttpException(

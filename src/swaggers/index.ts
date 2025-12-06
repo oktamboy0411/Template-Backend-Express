@@ -1,9 +1,9 @@
-import { SwaggerEndpoints } from '@/modules'
+import { swaggerEndpoints } from '@/modules'
 
-import { Swagger, addSwaggerEndpoint } from './main'
+import { addSwaggerEndpoint, swagger } from './main'
 
-SwaggerEndpoints.forEach((SwaggerEndpoint) => {
-   addSwaggerEndpoint(Swagger, SwaggerEndpoint)
+swaggerEndpoints.forEach((swaggerEndpoint) => {
+   addSwaggerEndpoint(swagger, swaggerEndpoint)
 })
 
-export { Swagger }
+export { swagger }

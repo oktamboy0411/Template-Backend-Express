@@ -3,10 +3,10 @@ import 'module-alias/register'
 import 'regenerator-runtime/runtime'
 
 import { App } from './app'
-import { CronJobs } from './utils'
+import { cronJobs } from './utils'
 import { PORT } from './utils/secrets'
 
-CronJobs()
+cronJobs()
 
 const { app } = new App()
 

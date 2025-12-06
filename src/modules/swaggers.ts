@@ -1,5 +1,5 @@
-import { AuthSwagger } from './auth'
-import { UploadSwagger } from './upload'
-import { UserSwagger } from './users'
+import { authSwagger } from './auth'
+import { uploadSwagger } from './upload'
+import { userSwagger } from './users'
 
-export const SwaggerEndpoints = [UploadSwagger, UserSwagger, AuthSwagger]
+export const swaggerEndpoints = [uploadSwagger, userSwagger, authSwagger]

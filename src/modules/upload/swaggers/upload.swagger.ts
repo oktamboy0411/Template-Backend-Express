@@ -1,4 +1,4 @@
-const UploadSwagger = {
+const uploadSwagger = {
    endpoint: 'upload',
    paths: [
       {
@@ -98,4 +98,4 @@ const UploadSwagger = {
    ],
 }
 
-export { UploadSwagger }
+export { uploadSwagger }

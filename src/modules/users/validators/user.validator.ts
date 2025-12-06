@@ -1,9 +1,9 @@
 import { body, param, query } from 'express-validator'
 
 import {
-   PermissionConstants,
-   RoleConstants,
-   SectionConstants,
+   permissionConstants,
+   roleConstants,
+   sectionConstants,
 } from '@/constants'
 
 export class UserValidator {
@@ -51,17 +51,17 @@ export class UserValidator {
          .trim()
          .notEmpty()
          .withMessage('Role is required.')
-         .isIn(Object.values(RoleConstants))
+         .isIn(Object.values(roleConstants))
          .withMessage('Invalid role value.'),
 
       body('section')
          .trim()
          .notEmpty()
          .withMessage('Section is required.')
-         .isIn(Object.values(SectionConstants))
+         .isIn(Object.values(sectionConstants))
          .withMessage('Invalid section value.'),
 
-      body('license_number')
+      body('licenseNumber')
          .trim()
          .notEmpty()
          .withMessage('License number is required.')
@@ -72,7 +72,7 @@ export class UserValidator {
          .isArray({ min: 1 })
          .withMessage('Permissions must be an array of strings.'),
       body('permissions.*')
-         .isIn(Object.values(PermissionConstants))
+         .isIn(Object.values(permissionConstants))
          .withMessage('Invalid permission value.'),
    ]
 
@@ -133,7 +133,7 @@ export class UserValidator {
          .trim()
          .notEmpty()
          .withMessage('Role cannot be empty.')
-         .isIn(Object.values(RoleConstants))
+         .isIn(Object.values(roleConstants))
          .withMessage('Invalid role value.'),
 
       body('section')
@@ -141,10 +141,10 @@ export class UserValidator {
          .trim()
          .notEmpty()
          .withMessage('Section cannot be empty.')
-         .isIn(Object.values(SectionConstants))
+         .isIn(Object.values(sectionConstants))
          .withMessage('Invalid section value.'),
 
-      body('license_number')
+      body('licenseNumber')
          .optional()
          .trim()
          .notEmpty()
@@ -158,7 +158,7 @@ export class UserValidator {
          .withMessage('Permissions must be an array of strings.'),
       body('permissions.*')
          .optional()
-         .isIn(Object.values(PermissionConstants))
+         .isIn(Object.values(permissionConstants))
          .withMessage('Invalid permission value.'),
    ]
 
@@ -175,7 +175,7 @@ export class UserValidator {
 
       query('role')
          .optional()
-         .isIn(Object.values(RoleConstants))
+         .isIn(Object.values(roleConstants))
          .withMessage('Invalid role value.'),
 
       query('search')

@@ -1,4 +1,4 @@
-export interface SwaggerType {
+export interface ISwagger {
    openapi: string
    info: {
       title: string
@@ -27,7 +27,7 @@ export interface SwaggerType {
    paths: Record<string, any>
 }
 
-export interface SwaggerEndpointType {
+export interface ISwaggerEndpoint {
    endpoint: string
    paths: Array<{
       path: string

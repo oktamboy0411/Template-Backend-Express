@@ -1,11 +1,10 @@
-import e from 'cors'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import { RoleConstants, StatusConstants } from '@/constants'
+import { roleConstants, statusConstants } from '@/constants'
 import { HashingHelpers, HttpException, asyncHandler } from '@/utils'
 
-import type { UserDocumentI } from '../models/user.model'
-import { UserModel } from '../models/user.model'
+import type { IUserDocument } from '../models/user.model'
+import { userModel } from '../models/user.model'
 
 export class UserController {
    public static create = asyncHandler(async (req, res) => {
@@ -18,10 +17,10 @@ export class UserController {
          role,
          section,
          permissions,
-         license_number,
-      } = req.body as UserDocumentI
+         licenseNumber,
+      } = req.body as IUserDocument
 
-      const matches = await UserModel.find({
+      const matches = await userModel.find({
          $or: [{ username }, { email }, { phone }],
       })
          .select('username email phone')
@@ -54,7 +53,7 @@ export class UserController {
 
       const hashed = await HashingHelpers.generatePassword(password)
 
-      await UserModel.create({
+      await userModel.create({
          username,
          password: hashed,
          fullname,
@@ -63,8 +62,8 @@ export class UserController {
          role,
          section,
          permissions,
-         status: StatusConstants.ACTIVE,
-         license_number,
+         status: statusConstants.ACTIVE,
+         licenseNumber,
       })
 
       res.status(StatusCodes.CREATED).json({
@@ -90,23 +89,23 @@ export class UserController {
       }
 
       if (role) {
-         queryObj.$and = [{ role: role }, { role: { $ne: RoleConstants.CEO } }]
+         queryObj.$and = [{ role: role }, { role: { $ne: roleConstants.CEO } }]
       } else {
-         queryObj.role = { $ne: RoleConstants.CEO }
+         queryObj.role = { $ne: roleConstants.CEO }
       }
 
       const projection =
          '_id username fullname email phone role created_at status section'
 
       const [result, total] = await Promise.all([
-         UserModel.find(queryObj)
+         userModel.find(queryObj)
             .select(projection)
             .sort({ created_at: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
             .lean()
             .exec(),
-         UserModel.countDocuments(queryObj).exec(),
+         userModel.countDocuments(queryObj).exec(),
       ])
 
       res.status(StatusCodes.OK).json({
@@ -125,7 +124,7 @@ export class UserController {
 
    public static getById = asyncHandler(async (req, res) => {
       const { id } = req.params as any
-      const user = await UserModel.findById(id).lean()
+      const user = await userModel.findById(id).lean()
       if (!user) {
          throw new HttpException(
             StatusCodes.NOT_FOUND,
@@ -145,12 +144,12 @@ export class UserController {
          phone,
          role,
          section,
-         license_number,
+         licenseNumber,
          password,
          permissions,
-      } = req.body as UserDocumentI
+      } = req.body as IUserDocument
 
-      const user = await UserModel.findById(id).select('+password')
+      const user = await userModel.findById(id).select('+password')
       if (!user) {
          throw new HttpException(
             StatusCodes.NOT_FOUND,
@@ -166,7 +165,7 @@ export class UserController {
       if (phone) orConditions.push({ phone })
 
       const matches = orConditions.length
-         ? await UserModel.find({ $or: orConditions })
+         ? await userModel.find({ $or: orConditions })
               .select('username email phone')
               .lean()
               .exec()
@@ -211,7 +210,7 @@ export class UserController {
 
       if (role) updateData.role = role
       if (section) updateData.section = section
-      if (license_number) updateData.license_number = license_number
+      if (licenseNumber) updateData.licenseNumber = licenseNumber
       if (permissions) updateData.permissions = permissions
 
       if (password) {
@@ -226,7 +225,7 @@ export class UserController {
          }
       }
 
-      await UserModel.findByIdAndUpdate(id, { $set: updateData })
+      await userModel.findByIdAndUpdate(id, { $set: updateData })
 
       res.status(StatusCodes.OK).json({
          success: true,
@@ -236,7 +235,7 @@ export class UserController {
 
    public static delete = asyncHandler(async (req, res) => {
       const { id } = req.params as any
-      const user = await UserModel.findByIdAndDelete(id)
+      const user = await userModel.findByIdAndDelete(id)
       if (!user) {
          throw new HttpException(
             StatusCodes.NOT_FOUND,

@@ -1,4 +1,4 @@
-export const CollectionConstants = {
+export const collectionConstants = {
    UPLOAD: 'upload',
    USER: 'user',
 } as const

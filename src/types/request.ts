@@ -1,7 +1,7 @@
 import type { Request } from 'express'
 
-import type { UserDocumentI } from '@/modules/users'
+import type { IUserDocument } from '@/modules/users'
 
 export interface ICustomRequest extends Request {
-   user?: UserDocumentI
+   user?: IUserDocument
 }
