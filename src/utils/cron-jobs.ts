@@ -1,17 +1,28 @@
+/* eslint-disable no-console */
 import cron from 'node-cron'
 
 import { UploadController } from '@/modules'
 
 export const cronJobs = (): void => {
-   cron.schedule('59 23 * * *', () => {
-      UploadController.deleteFileWithCron()
-         .then((deletedFiles) => {
+   cron.schedule(
+      '59 23 * * *',
+      async (): Promise<void> => {
+         try {
+            const deletedFiles = await UploadController.deleteFileWithCron()
             console.info(
-               `${deletedFiles} file(s) deleted in S3 Bucket! Date: ${new Date().toString()}`,
+               `[CRON] Successfully deleted ${deletedFiles} file(s) from S3 Bucket at ${new Date().toISOString()}`,
             )
-         })
-         .catch((error) => {
-            console.error('Error deleting files:', error)
-         })
-   })
+         } catch (error) {
+            console.error(
+               '[CRON] Error during file deletion:',
+               error instanceof Error ? error.message : error,
+            )
+         }
+      },
+      {
+         timezone: 'Asia/Tashkent',
+      },
+   )
+
+   console.info('[CRON] Cron jobs initialized successfully')
 }
