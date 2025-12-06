@@ -1,39 +1,65 @@
-import fs from 'fs'
-
 import dotenv from 'dotenv'
+import * as fs from 'node:fs'
 
 if (fs.existsSync('.env')) {
    dotenv.config({ path: '.env' })
 } else {
-   console.error('.env file not found!')
+   throw new Error(
+      '.env file not found! Please create a .env file in the root directory.',
+   )
 }
 
-const MONGO_URI = process.env.MONGO_URI as string
-const IP = (process.env.IP as string) || ''
-const PORT = parseInt(process.env.PORT as string, 10) || 8080
-const REG_KEY = process.env.REG_KEY as string
-const JWT_SECRET = process.env.JWT_SECRET as string
-const JWT_SECRET_REFRESH = process.env.JWT_SECRET_REFRESH as string
-const AWS_S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME as string
-const AWS_S3_BUCKET_FOLDER = process.env.AWS_S3_BUCKET_FOLDER as string
-const AWS_S3_REGION = process.env.AWS_S3_REGION as string
-const AWS_S3_ACCESS_KEY_ID = process.env.AWS_S3_ACCESS_KEY_ID as string
-const AWS_S3_SECRET_ACCESS_KEY = process.env.AWS_S3_SECRET_ACCESS_KEY as string
-const AWS_S3_URL = process.env.AWS_S3_URL as string
-const OPENWEATHER_API_KEY = (process.env.OPENWEATHER_API_KEY as string) || ''
+const getEnvVariable = (key: string, defaultValue?: string): string => {
+   const value = process.env[key]
+   if (value === undefined || value === '') {
+      if (defaultValue !== undefined) {
+         return defaultValue
+      }
+      throw new Error(`Environment variable ${key} is not defined`)
+   }
+   return value
+}
+
+const getEnvNumber = (key: string, defaultValue: number): number => {
+   const value = process.env[key]
+   if (value === undefined || value === '') {
+      return defaultValue
+   }
+   const parsed = parseInt(value, 10)
+   if (Number.isNaN(parsed)) {
+      throw new Error(`Environment variable ${key} must be a valid number`)
+   }
+   return parsed
+}
+
+const DEFAULT_PORT = 8080
+
+const MONGO_URI = getEnvVariable('MONGO_URI')
+const IP = getEnvVariable('IP', '')
+const PORT = getEnvNumber('PORT', DEFAULT_PORT)
+const REG_KEY = getEnvVariable('REG_KEY')
+const JWT_SECRET = getEnvVariable('JWT_SECRET')
+const JWT_SECRET_REFRESH = getEnvVariable('JWT_SECRET_REFRESH')
+const AWS_S3_BUCKET_NAME = getEnvVariable('AWS_S3_BUCKET_NAME')
+const AWS_S3_BUCKET_FOLDER = getEnvVariable('AWS_S3_BUCKET_FOLDER')
+const AWS_S3_REGION = getEnvVariable('AWS_S3_REGION')
+const AWS_S3_ACCESS_KEY_ID = getEnvVariable('AWS_S3_ACCESS_KEY_ID')
+const AWS_S3_SECRET_ACCESS_KEY = getEnvVariable('AWS_S3_SECRET_ACCESS_KEY')
+const AWS_S3_URL = getEnvVariable('AWS_S3_URL')
+const OPENWEATHER_API_KEY = getEnvVariable('OPENWEATHER_API_KEY', '')
 
 export {
-   MONGO_URI,
-   IP,
-   PORT,
-   REG_KEY,
-   JWT_SECRET,
-   JWT_SECRET_REFRESH,
-   AWS_S3_BUCKET_NAME,
-   AWS_S3_BUCKET_FOLDER,
-   AWS_S3_REGION,
    AWS_S3_ACCESS_KEY_ID,
+   AWS_S3_BUCKET_FOLDER,
+   AWS_S3_BUCKET_NAME,
+   AWS_S3_REGION,
    AWS_S3_SECRET_ACCESS_KEY,
    AWS_S3_URL,
+   IP,
+   JWT_SECRET,
+   JWT_SECRET_REFRESH,
+   MONGO_URI,
    OPENWEATHER_API_KEY,
+   PORT,
+   REG_KEY,
 }

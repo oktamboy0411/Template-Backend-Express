@@ -1,18 +1,22 @@
-import path from 'path'
-
 import cors from 'cors'
-import type { Application, Request, Response, Router } from 'express'
+import type { Application, NextFunction, Request, Response } from 'express'
 import express from 'express'
 import helmet from 'helmet'
 import contentSecurityPolicy from 'helmet-csp'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
+import path from 'node:path'
 import swaggerUi from 'swagger-ui-express'
 
 import { errorMiddleware } from '@/middlewares'
 import { routes } from '@/modules'
 
 import { swagger } from './swaggers'
-import { CONNECT_DB, HttpException, IP, noAsyncHandler } from './utils'
+import { CONNECT_DB, HttpException, IP } from './utils'
+
+interface IRouteController {
+   path: string
+   router: express.Router
+}
 
 export class App {
    public app: Application
@@ -34,7 +38,10 @@ export class App {
       this.app.use(express.urlencoded({ extended: true }))
       this.app.use(helmet())
       this.app.use(
-         contentSecurityPolicy({ useDefaults: true, reportOnly: false }),
+         contentSecurityPolicy({
+            useDefaults: true,
+            reportOnly: false,
+         }),
       )
       this.app.use(
          cors({
@@ -52,34 +59,38 @@ export class App {
          '/api-docs/',
          swaggerUi.serveFiles(swagger),
          swaggerUi.setup(swagger, {
-            swaggerOptions: { persistAuthorization: true },
+            swaggerOptions: {
+               persistAuthorization: true,
+            },
             customJs: '/public/swagger-custom.js',
          }),
       )
    }
 
    private initializeControllers(): void {
-      this.app.get(
-         '/',
-         noAsyncHandler((req: Request, res: Response) =>
-            res.status(StatusCodes.OK).json({
-               success: true,
-               msg: ReasonPhrases.OK,
-            }),
-         ),
-      )
-      routes.forEach((controller: { path: string; router: Router }) => {
+      this.app.get('/', (req: Request, res: Response): void => {
+         res.status(StatusCodes.OK).json({
+            success: true,
+            message: ReasonPhrases.OK,
+         })
+      })
+
+      routes.forEach((controller: IRouteController) => {
          this.app.use(controller.path, controller.router)
       })
-      this.app.all(/.*/, (req, res, next) => {
-         next(
-            new HttpException(
-               StatusCodes.NOT_FOUND,
-               ReasonPhrases.NOT_FOUND,
-               'Endpoint not found!',
-            ),
-         )
-      })
+
+      this.app.all(
+         '*',
+         (req: Request, res: Response, next: NextFunction): void => {
+            next(
+               new HttpException(
+                  StatusCodes.NOT_FOUND,
+                  ReasonPhrases.NOT_FOUND,
+                  `Cannot ${req.method} ${req.path}`,
+               ),
+            )
+         },
+      )
    }
 
    private initializeErrorHandling(): void {
