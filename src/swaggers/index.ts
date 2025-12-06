@@ -2,8 +2,12 @@ import { swaggerEndpoints } from '@/modules'
 
 import { addSwaggerEndpoint, swagger } from './main'
 
-swaggerEndpoints.forEach((swaggerEndpoint) => {
-   addSwaggerEndpoint(swagger, swaggerEndpoint)
-})
+const initializeSwagger = (): void => {
+   swaggerEndpoints.forEach((endpoint) => {
+      addSwaggerEndpoint(swagger, endpoint)
+   })
+}
+
+initializeSwagger()
 
 export { swagger }
