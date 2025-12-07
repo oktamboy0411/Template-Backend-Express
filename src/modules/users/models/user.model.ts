@@ -14,9 +14,9 @@ import type {
 
 export interface IUserDocument {
    _id: string
-   fullname?: string
-   username: string
-   phone?: string
+   lastname: string
+   firstname: string
+   phone: string
    role: RoleConstantsType
    section?: SectionConstantsType
    password: string
