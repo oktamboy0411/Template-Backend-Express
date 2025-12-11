@@ -1,5 +1,3 @@
-export const permissionConstants = {
-   READ: 'read',
-   WRITE: 'write',
-   DELETE: 'delete',
-} as const
+import type { IPermissionsType } from '../types'
+
+export const permissions: IPermissionsType[] = []

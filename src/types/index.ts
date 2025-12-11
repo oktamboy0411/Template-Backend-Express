@@ -1,5 +1,6 @@
 export * from './bcrypt'
 export * from './contants'
+export * from './permissions'
 export * from './request'
 export * from './swagger'
 export * from './weather'

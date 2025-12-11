@@ -1,5 +1,6 @@
 export * from './check-user'
 export * from './error'
+export * from './permission'
 export * from './rate-limit'
 export * from './role'
 export * from './validator'

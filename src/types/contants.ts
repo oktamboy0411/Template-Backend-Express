@@ -1,22 +1,14 @@
-import {
+import type {
    collectionConstants,
-   permissionConstants,
-   roleConstants,
-   sectionConstants,
+   endpointConstants,
+   statusConstants,
 } from '../constants'
-import { statusConstants } from '../constants/status'
 
-const _collectionConstantsEnum = Object.values(collectionConstants)
-export type CollectionConstantsType = (typeof _collectionConstantsEnum)[number]
+export type CollectionConstantsType =
+   (typeof collectionConstants)[keyof typeof collectionConstants]
 
-const _roleConstantsEnum = Object.values(roleConstants)
-export type RoleConstantsType = (typeof _roleConstantsEnum)[number]
+export type StatusConstantsType =
+   (typeof statusConstants)[keyof typeof statusConstants]
 
-const _sectionConstantsEnum = Object.values(sectionConstants)
-export type SectionConstantsType = (typeof _sectionConstantsEnum)[number]
-
-const _permissionEnum = Object.values(permissionConstants)
-export type PermissionConstantsType = (typeof _permissionEnum)[number]
-
-const _statusConstantsEnum = Object.values(statusConstants)
-export type StatusConstantsType = (typeof _statusConstantsEnum)[number]
+export type EndpointConstantsType =
+   (typeof endpointConstants)[keyof typeof endpointConstants]

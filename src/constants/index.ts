@@ -1,5 +1,4 @@
 export * from './collection'
-export * from './role'
-export * from './section'
+export * from './endpoint'
 export * from './permission'
 export * from './status'
